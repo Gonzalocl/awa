@@ -25,3 +25,29 @@ if len(links) != num_items:
   print("Could not find all links.")
   exit()
 
+output_f = open(output_file, "w")
+print("link,state", file=output_f)
+
+for l in links:
+  link = "{}{}".format(domain_name, l)
+
+  driver = webdriver.Chrome(chromedriver_location)
+  driver.get(link)
+
+  state = "error"
+
+  if not driver.find_element_by_id("get-key-actions").get_attribute("style"):
+    state = "available"
+  elif not driver.find_element_by_id("no-keys-left-until-level").get_attribute("style"):
+    state = "available_with_level"
+  elif not driver.find_element_by_id("no-keys-left").get_attribute("style"):
+    state = "unavailable"
+  else:
+    print("Error: {}".format(link))
+
+  print("\"{}\",\"{}\"".format(link, state), file=output_f)
+  output_f.close()
+  exit()
+
+output_f.close()
+
