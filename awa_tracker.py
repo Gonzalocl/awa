@@ -47,7 +47,6 @@ for l in links:
 
   print("\"{}\",\"{}\"".format(link, state), file=output_f)
   output_f.close()
-  exit()
 
 output_f.close()
 
